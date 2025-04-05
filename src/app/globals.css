@@ -1,26 +1,101 @@
-@import "tailwindcss";
+/* Import Google Fonts at the top */
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap");
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Import Tailwind */
+@import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  /* Apply Titillium Web to the entire page */
+  body {
+    font-family: var(--font-sans);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .gradient-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gradient-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 50%, #00ffc826, transparent 70%),
+      radial-gradient(circle at 30% 80%, #0064ff26, transparent 70%);
+    z-index: 0;
+  }
+
+  .gradient-bg>* {
+    position: relative;
+    z-index: 1;
+  }
+
+  .roadmap-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, #00ffc880, #00ffc833);
+  }
+
+  .roadmap-dot {
+    position: absolute;
+    left: 50%;
+    height: 12px;
+    width: 12px;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    background-color: hsl(var(--primary));
+  }
+}
+
+@media (max-width: 768px) {
+  .roadmap-line {
+    left: 20px;
+  }
+
+  .roadmap-dot {
+    left: 20px;
+  }
+}
+
+/* Animation keyframes */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+
+  to {
+    height: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
 }
