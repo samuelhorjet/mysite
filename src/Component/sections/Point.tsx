@@ -12,7 +12,6 @@ export default function PainPoints() {
     offset: ["start end", "end start"],
   });
 
-  // Transform values for west image (initially on left/west)
   const westX = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
@@ -21,10 +20,9 @@ export default function PainPoints() {
   const westY = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    ["0%", "-20%", "20%"] // Moves NW when scrolling down, NE when scrolling up
+    ["0%", "-20%", "20%"]
   );
 
-  // Transform values for east image (initially on right/east)
   const eastX = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
@@ -33,7 +31,7 @@ export default function PainPoints() {
   const eastY = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    ["0%", "20%", "-20%"] // Moves SE when scrolling down, SW when scrolling up
+    ["0%", "20%", "-20%"]
   );
 
   return (
@@ -43,61 +41,63 @@ export default function PainPoints() {
           {/* Left Side Visual */}
           <div className="relative flex-1 h-[350px]">
             {/* Large Center Circle */}
-            <div className="absolute left-1/2 top-1/2 w-[280px] h-[280px] -translate-x-1/2 -translate-y-1/2 z-10">
+            <div className="absolute left-1/2 top-1/2 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 z-10">
               <Image
                 src="/images/about_shape1-removebg-preview.png"
                 alt="center-ring"
-                width={280}
-                height={280}
-                className="w-full h-full"
+                width={570}
+                height={570}
+                className="w-full h-full object-contain"
               />
-              <div className="absolute left-1/2 top-1/2 w-[100px] h-[100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-black flex items-center justify-center">
+              <div className="absolute left-1/2 top-1/2 w-[120px] h-[120px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00082d] flex items-center justify-center">
                 <Image
                   src="/images/syber_icon.svg"
                   alt="icon"
-                  width={50}
-                  height={50}
+                  width={120}
+                  height={120}
                 />
               </div>
             </div>
 
-            {/* West Ring (initially on left side) */}
+            {/* West Ring with Dark Shadow */}
             <motion.div
               style={{ x: westX, y: westY }}
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-[160px] h-[160px] z-0 opacity-70"
+              className="absolute left-[0%] top-1/2 -translate-y-1/2 w-[300px] h-[300px] z-0 opacity-80"
             >
+              <div className="absolute inset-0 rounded-full bg-black blur-2xl opacity-40" />
               <Image
                 src="/images/about_shape1-removebg-preview.png"
                 alt="west-ring"
-                width={160}
-                height={160}
-                className="w-full h-full"
+                width={300}
+                height={300}
+                className="w-full h-full object-contain"
               />
             </motion.div>
 
-            {/* East Ring (initially on right side) */}
+            {/* East Ring with Dark Shadow */}
             <motion.div
               style={{ x: eastX, y: eastY }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-[120px] h-[120px] z-0 opacity-70"
+              className="absolute right-[13%] top-1/2 -translate-y-1/2 w-[180px] h-[180px] z-0 opacity-80"
             >
+              <div className="absolute inset-0 rounded-full bg-black blur-2xl opacity-40" />
               <Image
                 src="/images/about_shape1-removebg-preview.png"
                 alt="east-ring"
-                width={120}
-                height={120}
-                className="w-full h-full"
+                width={180}
+                height={180}
+                className="w-full h-full object-contain"
               />
             </motion.div>
           </div>
 
           {/* Right Side Content */}
           <div className="flex-1 space-y-6">
-            <h2 className="text-3xl font-bold md:text-4xl">
+            <h2 className="text-3xl font-medium md:text-5xl">
               Blockchain Addressing
               <br />
               Industry Pain Points
             </h2>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-xl max-w-135">
               Blockchain technology has brought significant advancements to
               various industries. Here are some common pain points faced by
               industries when it comes to blockchain solutions.
