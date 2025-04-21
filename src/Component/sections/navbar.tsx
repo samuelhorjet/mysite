@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/Component/ui/button";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 
 const navItems = [
-  { name: "Home", href: "/" },
+  { name: "Home", href: "#" },
   { name: "Features", href: "#features" },
   { name: "Team", href: "#team" },
   { name: "Roadmap", href: "#roadmap" },
@@ -24,23 +24,37 @@ const navItems = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeHash, setActiveHash] = useState<string>("");
 
   const toggleDropdown = (name: string) => {
-    if (activeDropdown === name) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(name);
-    }
+    setActiveDropdown(activeDropdown === name ? null : name);
   };
 
+  const isActive = (href: string) => {
+    if (href.startsWith("#")) {
+      return activeHash === href;
+    }
+    return pathname === href;
+  };
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setActiveHash(window.location.hash || "#");
+    };
+
+    handleHashChange(); // Run on load
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
   return (
-    <nav className="fixed top-0 z-50 w-full bg-black/80 backdrop-blur">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <nav className="fixed top-0 z-50 backdrop-blur w-full gradient-bg">
+      <div className="mx-4 md:mx-8 lg:container lg:mx-auto flex md:h-20 lg:h-24 h-18 items-center justify-between">
         <Link href="/" className="flex items-center">
           <div className="relative h-12 w-36 pl-40">
-            {/* Combined logo image with Coindox text */}
             <Image
               src="/images/logo-2.svg"
               alt="Coindox logo"
@@ -51,25 +65,29 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-8 md:flex">
-          <ul className="flex gap-6">
+        <div className="hidden items-center gap-50 lg:flex">
+          <ul className="flex gap-10 items-center h-full">
             {navItems.map((item) => (
-              <li key={item.name} className="relative">
+              <li key={item.name} className="relative flex items-center h-full">
                 {item.hasDropdown ? (
-                  <div className="group relative">
-                    <button
-                      className="flex items-center gap-1 text-sm text-gray-300 transition group-hover:text-primary"
-                      aria-expanded={activeDropdown === item.name}
+                  <div className="group relative flex items-center h-full">
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-1 text-lg font-bold transition py-2 ${
+                        isActive(item.href)
+                          ? "text-[#14a384]"
+                          : "text-white hover:text-[#14a384]"
+                      }`}
                     >
                       {item.name}
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
-                    <div className="absolute left-0 top-full z-50 mt-1 hidden min-w-[160px] rounded-md bg-gray-900 py-2 shadow-lg group-hover:block">
+                      <ChevronDown className="h-5 w-5 transition-transform duration-300 group-hover:rotate-180 stroke-[2.5]" />
+                    </Link>
+                    <div className="absolute left-0 top-full z-50 transition-all duration-300 rounded-md bg-gray-900 py-2 shadow-lg min-w-[150px] opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
                       {item.dropdownItems?.map((dropdownItem) => (
                         <Link
                           key={dropdownItem.name}
                           href={dropdownItem.href}
-                          className="block px-4 m-40 text-lg text-gray-300 hover:bg-gray-800 hover:text-primary"
+                          className="block px-4 py-2 text-lg text-white hover:bg-gray-800 hover:text-[#14a384]"
                         >
                           {dropdownItem.name}
                         </Link>
@@ -79,7 +97,11 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={item.href}
-                    className="text-lg text-gray-300 transition hover:text-primary"
+                    className={`text-lg font-bold transition py-2 ${
+                      isActive(item.href)
+                        ? "text-[#14a384]"
+                        : "text-white hover:text-[#14a384]"
+                    }`}
                   >
                     {item.name}
                   </Link>
@@ -87,18 +109,21 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full border-primary text-primary"
-          >
+          <button className="login-button flex items-center gap-2 px-6 py-2 text-white font-bold uppercase tracking-wide">
+            <Image
+              src="/images/user-logo.png"
+              alt="User icon"
+              width={20}
+              height={20}
+              className="object-contain"
+            />
             Login
-          </Button>
+          </button>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Hamburger */}
         <button
-          className="text-white md:hidden"
+          className="text-white block lg:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -106,33 +131,66 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="absolute left-0 top-16 z-50 w-full bg-black/95 pb-6 pt-2 backdrop-blur md:hidden">
-          <ul className="flex flex-col gap-1 px-4">
+      {/* Sidebar Mobile Menu */}
+      <div
+        className={`fixed inset-0 z-50 flex transition-opacity duration-500 ${
+          isMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div
+          className="fixed inset-0 bg-black/70"
+          onClick={() => setIsMenuOpen(false)}
+        />
+        <div
+          className={`ml-auto w-72 max-w-full h-full bg-[#0c0c0c] p-6 pt-24 overflow-y-auto shadow-lg text-white transform transition-transform duration-500 ease-in-out ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <button
+            className="absolute top-6 left-4 text-white z-10"
+            onClick={() => setIsMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={24} />
+          </button>
+
+          <div className="mb-6">
+            <Image
+              src="/images/logo-2.svg"
+              alt="Logo"
+              width={150}
+              height={100}
+            />
+          </div>
+          <ul className="flex flex-col gap-4">
             {navItems.map((item) => (
               <li key={item.name}>
                 {item.hasDropdown ? (
                   <div>
                     <button
-                      className="flex w-full items-center justify-between py-2 text-gray-300 transition hover:text-primary"
+                      className={`w-full flex justify-between items-center text-left py-2 transition ${
+                        isActive(item.href)
+                          ? "text-[#14a384] font-bold"
+                          : "text-white"
+                      }`}
                       onClick={() => toggleDropdown(item.name)}
-                      aria-expanded={activeDropdown === item.name}
                     >
-                      <span>{item.name}</span>
+                      {item.name}
                       <ChevronDown
-                        className={`h-4 w-4 transition-transform ${
+                        className={`h-5 w-5 transform transition-transform duration-300 ${
                           activeDropdown === item.name ? "rotate-180" : ""
                         }`}
                       />
                     </button>
                     {activeDropdown === item.name && (
-                      <div className="ml-4 mt-1 border-l border-gray-800 pl-4">
+                      <div className="ml-4 mt-1 border-l border-gray-700 pl-4">
                         {item.dropdownItems?.map((dropdownItem) => (
                           <Link
                             key={dropdownItem.name}
                             href={dropdownItem.href}
-                            className="block py-2 text-gray-300 transition hover:text-primary"
+                            className="block py-2 transition hover:text-[#14a384]"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             {dropdownItem.name}
@@ -144,7 +202,11 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={item.href}
-                    className="block py-2 text-gray-300 transition hover:text-primary"
+                    className={`block py-2 transition ${
+                      isActive(item.href)
+                        ? "text-[#14a384] font-bold"
+                        : "text-white hover:text-[#14a384]"
+                    }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
@@ -153,17 +215,8 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="mt-4 px-4">
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full rounded-full border-primary text-primary"
-            >
-              Login
-            </Button>
-          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

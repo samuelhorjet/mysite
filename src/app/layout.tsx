@@ -36,6 +36,13 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
     </html>
   );
 }
+
