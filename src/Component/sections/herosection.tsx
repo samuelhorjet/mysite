@@ -83,7 +83,7 @@ const Hero = () => {
           </div>
 
           {/* Redesigned right div */}
-          <div className="md:w-1/2 mt-20 ml-20 relative h-[500px] flex items-center justify-center">
+          <div className="md:w-1/2 relative h-[500px] flex items-center justify-center">
             {/* Animated blockchain sphere */}
             <div className="relative w-[280px] h-[280px] md:w-[320px] md:h-[320px]">
               {/* Outer rotating ring */}

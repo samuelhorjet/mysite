@@ -124,7 +124,7 @@ export default function Navbar() {
                     <Link
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className={`flex items-center gap-1 text-[21px] font-semibold transition py-2 ${
+                      className={`flex items-center gap-1 text-[18px] font-semibold transition py-2 ${
                         isActive(item.href)
                           ? "text-[#14a384]"
                           : "text-white hover:text-[#14a384]"
@@ -139,7 +139,7 @@ export default function Navbar() {
                           key={dropdownItem.name}
                           href={dropdownItem.href}
                           onClick={(e) => handleNavClick(e, dropdownItem.href)}
-                          className="block px-4 py-2 text-[21px] text-white hover:bg-gray-800 hover:text-[#14a384]"
+                          className="block px-4 py-2 text-[18px] text-white hover:bg-gray-800 hover:text-[#14a384]"
                         >
                           {dropdownItem.name}
                         </Link>
@@ -150,7 +150,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item.href)}
-                    className={`text-[21px] font-semibold transition ${
+                    className={`text-[18px] font-semibold transition ${
                       isActive(item.href)
                         ? "text-[#14a384]"
                         : "text-white hover:text-[#14a384]"
