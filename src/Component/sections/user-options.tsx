@@ -12,7 +12,7 @@ import {
 export default function UserOptions() {
   return (
     <section className="gradient1-bg py-20 relative">
-      <div className="md:px-8 px-4">
+      <div className="md:px-7 px-4">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-medium lg:text-5xl text-white">
             Our Users Options
@@ -24,7 +24,7 @@ export default function UserOptions() {
 
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center lg:justify-center">
           {/* Left Card - Personal */}
-          <div className="z-20 w-full md:h-145 h-170 lg:w-125 bg-[#000416] border border-gray-800 p-12 rounded-2xl shadow-xl lg:space-y-6 lg:mr-[-70px]">
+          <div className="z-20 w-full md:h-145 h-170 lg:w-145 bg-[#000416] border border-gray-800 p-12 rounded-2xl shadow-xl lg:space-y-6 lg:mr-[-70px]">
             <Image
               src="/images/up_01.png"
               alt="Personal Icon"
@@ -87,7 +87,7 @@ export default function UserOptions() {
           </div>
 
           {/* Right Card - Commercial */}
-          <div className="z-20 md:h-150 h-175 lg:w-125 w-full bg-[#000416] border border-gray-800 p-12 rounded-2xl shadow-xl lg:space-y-6 lg:ml-[-70px]">
+          <div className="z-20 md:h-150 h-175 lg:w-145 w-full bg-[#000416] border border-gray-800 p-12 rounded-2xl shadow-xl lg:space-y-6 lg:ml-[-70px]">
             <Image
               src="/images/up_02.png"
               alt="Commercial Icon"

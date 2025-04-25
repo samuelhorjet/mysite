@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type React from "react";
-import { Geist, Geist_Mono, Inter } from "next/font/google"; // ✅ Added Inter import
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import ScrollProgressIndicator from "@/Component/ui/scroll-progress-indicator";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   description: "Navigate the world of blockchain with Coindox",
   generator: "Samuel Horjet",
   icons: {
-    icon: "/tablogo.png", // ✅ Add this line
+    icon: "/tablogo.png",
   },
 };
 
@@ -31,18 +32,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
-      >
-        {children}
-      </body>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
+      >
+        {children}
+        <ScrollProgressIndicator />
+      </body>
     </html>
   );
 }
-

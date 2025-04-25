@@ -36,7 +36,7 @@ export default function PainPoints() {
 
   return (
     <section className="gradient1-bg py-20" ref={ref}>
-      <div className="container mx-auto px-4">
+      <div className="md:px-8 px-4">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-start">
           {/* Left Side Visual */}
           <div className="relative flex-1 h-[350px]">
@@ -62,7 +62,7 @@ export default function PainPoints() {
             {/* West Ring with Dark Shadow */}
             <motion.div
               style={{ x: westX, y: westY }}
-              className="absolute left-[0%] top-1/2 -translate-y-1/2 w-[300px] h-[300px] z-0 opacity-80"
+              className="absolute left-[7%] top-1/2 -translate-y-1/2 w-[300px] h-[300px] z-0 opacity-80"
             >
               <div className="absolute inset-0 rounded-full bg-black blur-2xl opacity-40" />
               <Image
@@ -105,28 +105,28 @@ export default function PainPoints() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex items-start gap-2">
-                <Shield className="mt-1 h-5 w-5 text-emerald-400" />
-                <span>Privacy and Security</span>
+                <Shield className="mt-1 h-6 w-6 text-emerald-400" />
+                <span className="text-xl">Privacy and Security</span>
               </div>
               <div className="flex items-start gap-2">
-                <Zap className="mt-1 h-5 w-5 text-emerald-400" />
-                <span>Cost and Complexity</span>
+                <Zap className="mt-1 h-6 w-6 text-3xl text-emerald-400" />
+                <span className="text-xl">Cost and Complexity</span>
               </div>
               <div className="flex items-start gap-2">
-                <ArrowRightLeft className="mt-1 h-5 w-5 text-emerald-400" />
-                <span>Interoperability</span>
+                <ArrowRightLeft className="mt-1 h-6 w-6 text-emerald-400" />
+                <span className="text-xl">Interoperability</span>
               </div>
               <div className="flex items-start gap-2">
-                <BarChart3 className="mt-1 h-5 w-5 text-emerald-400" />
-                <span>Regulatory Compliance</span>
+                <BarChart3 className="mt-1 h-6 w-6 text-emerald-400" />
+                <span className="text-xl">Regulatory Compliance</span>
               </div>
               <div className="flex items-start gap-2">
-                <Shield className="mt-1 h-5 w-5 text-emerald-400" />
-                <span>Sustainable Chain</span>
+                <Shield className="mt-1 h-6 w-6 text-emerald-400" />
+                <span className="text-xl">Sustainable Chain</span>
               </div>
               <div className="flex items-start gap-2">
-                <Zap className="mt-1 h-5 w-5 text-emerald-400" />
-                <span>Energy Conservation</span>
+                <Zap className="mt-1 h-6 w-6 text-emerald-400" />
+                <span className="text-xl">Energy Conservation</span>
               </div>
             </div>
           </div>

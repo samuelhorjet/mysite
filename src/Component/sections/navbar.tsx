@@ -1,13 +1,16 @@
 "use client";
 
+import type React from "react";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { scrollToSection } from "@/utils/scroll-utils";
 
 const navItems = [
-  { name: "Home", href: "#" },
+  { name: "Home", href: "#hero" },
   { name: "Features", href: "#features" },
   { name: "Team", href: "#team" },
   { name: "Roadmap", href: "#roadmap" },
@@ -28,6 +31,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeHash, setActiveHash] = useState<string>("");
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name);
@@ -40,19 +44,65 @@ export default function Navbar() {
     return pathname === href;
   };
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    if (href.startsWith("#")) {
+      scrollToSection(href);
+      setActiveHash(href);
+      setIsMenuOpen(false);
+    } else {
+      window.location.href = href;
+    }
+  };
+
   useEffect(() => {
     const handleHashChange = () => {
       setActiveHash(window.location.hash || "#");
     };
 
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+
+      // Determine which section is currently in view
+      const sections = [
+        "hero",
+        "features",
+        "team",
+        "roadmap",
+        "blog",
+        "contact",
+      ];
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const navbarHeight = 100; // Approximate navbar height
+
+          if (rect.top <= navbarHeight && rect.bottom > navbarHeight) {
+            setActiveHash(`#${section}`);
+            break;
+          }
+        }
+      }
+    };
+
     handleHashChange(); // Run on load
     window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <nav className="fixed top-0 z-50 backdrop-blur w-full gradient-bg">
-      <div className="mx-4 md:mx-8 lg:container lg:mx-auto flex md:h-20 lg:h-24 h-18 items-center justify-between">
+      <div className="mx-4 md:mx-8 lg:mx-8 flex md:h-20 lg:h-24 h-18 items-center justify-between">
         <Link href="/" className="flex items-center">
           <div className="relative h-12 w-36 pl-40">
             <Image
@@ -65,7 +115,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-50 lg:flex">
+        <div className="hidden items-center gap-70 lg:flex">
           <ul className="flex gap-10 items-center h-full">
             {navItems.map((item) => (
               <li key={item.name} className="relative flex items-center h-full">
@@ -73,7 +123,8 @@ export default function Navbar() {
                   <div className="group relative flex items-center h-full">
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-1 text-lg font-bold transition py-2 ${
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      className={`flex items-center gap-1 text-[21px] font-semibold transition py-2 ${
                         isActive(item.href)
                           ? "text-[#14a384]"
                           : "text-white hover:text-[#14a384]"
@@ -87,7 +138,8 @@ export default function Navbar() {
                         <Link
                           key={dropdownItem.name}
                           href={dropdownItem.href}
-                          className="block px-4 py-2 text-lg text-white hover:bg-gray-800 hover:text-[#14a384]"
+                          onClick={(e) => handleNavClick(e, dropdownItem.href)}
+                          className="block px-4 py-2 text-[21px] text-white hover:bg-gray-800 hover:text-[#14a384]"
                         >
                           {dropdownItem.name}
                         </Link>
@@ -97,7 +149,8 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={item.href}
-                    className={`text-lg font-bold transition py-2 ${
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`text-[21px] font-semibold transition ${
                       isActive(item.href)
                         ? "text-[#14a384]"
                         : "text-white hover:text-[#14a384]"
@@ -109,7 +162,7 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
-          <button className="login-button flex items-center gap-2 px-6 py-2 text-white font-bold uppercase tracking-wide">
+          <button className="login-button flex items-center gap-2 px-8 py-2 pt-3 text-white font-semibold uppercase tracking-wide">
             <Image
               src="/images/user-logo.png"
               alt="User icon"
@@ -190,8 +243,10 @@ export default function Navbar() {
                           <Link
                             key={dropdownItem.name}
                             href={dropdownItem.href}
+                            onClick={(e) =>
+                              handleNavClick(e, dropdownItem.href)
+                            }
                             className="block py-2 transition hover:text-[#14a384]"
-                            onClick={() => setIsMenuOpen(false)}
                           >
                             {dropdownItem.name}
                           </Link>
@@ -202,12 +257,12 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href={item.href}
+                    onClick={(e) => handleNavClick(e, item.href)}
                     className={`block py-2 transition ${
                       isActive(item.href)
                         ? "text-[#14a384] font-bold"
                         : "text-white hover:text-[#14a384]"
                     }`}
-                    onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                   </Link>

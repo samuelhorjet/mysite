@@ -3,7 +3,7 @@ import { Shield, BarChart3, Fingerprint, Settings } from "lucide-react";
 export default function Solutions() {
   return (
     <section className="gradient1-bg py-20">
-      <div className="container mx-auto px-4">
+      <div className="md:px-8 px-4">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-medium md:text-5xl">
             Our Best Blockchain
