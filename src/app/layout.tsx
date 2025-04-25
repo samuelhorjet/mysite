@@ -16,6 +16,15 @@ const geistMono = Geist_Mono({
 
 const inter = Inter({ subsets: ["latin"] });
 
+// Import Titillium Web font properly using Next.js font system
+import { Titillium_Web } from "next/font/google";
+
+const titilliumWeb = Titillium_Web({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-titillium",
+});
+
 export const metadata: Metadata = {
   title: "Coindox - Blockchain Solutions",
   description: "Navigate the world of blockchain with Coindox",
@@ -31,16 +40,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
-      >
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`dark ${geistSans.variable} ${geistMono.variable} ${titilliumWeb.variable}`}
+    >
+      <body className={`${inter.className} antialiased`}>
         {children}
         <ScrollProgressIndicator />
       </body>

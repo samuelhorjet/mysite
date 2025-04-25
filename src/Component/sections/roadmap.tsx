@@ -71,7 +71,7 @@ const roadmapStages = [
       "Meta Event Arena Launch",
       "First Planet Phase 1 Launch",
       "NFT Artist Onboarding Release",
-      "Initial Metaverse Offering Launce",
+      "Initial Metaverse Offering Launch", // Fixed apostrophe in "Launce" to "Launch"
     ],
     position: "right",
   },
@@ -104,7 +104,7 @@ export default function Roadmap() {
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-medium md:text-6xl">Roadmap</h2>
           <p className="mx-auto text-xl font-semibold text-gray-400">
-            Blockchain's bold infrastructure for growth
+            Blockchain&apos;s bold infrastructure for growth
           </p>
         </div>
 
